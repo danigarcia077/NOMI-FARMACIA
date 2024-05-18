@@ -70,7 +70,7 @@ class Prueba {
             } else {
                 console.log("¡Error! El valor no es una instancia de Persona.");
             }
-            actual = actual.siguiente; // Pasamos al siguiente nodo
+            actual = actual.siguiente;
         }
         return { totalCosto, descuentosPorSisben };
     }
@@ -190,9 +190,9 @@ function main() {
                 let nombrePersona = readline.question('Nombre de la persona: ');
                 let edadPersona = parseInt(readline.question('Edad de la persona: '));
                 let generoPersona = readline.question('Género de la persona (M/F): ').toUpperCase();
-                let regimenPersona = readline.question('Régimen (subsidiado/contributivo): ').toLowerCase(); // Convertir a minúsculas
+                let regimenPersona = readline.question('Régimen (subsidiado/contributivo): ').toLowerCase(); 
                 let ingresoPersona = regimenPersona === 'contributivo' ? parseFloat(readline.question('Ingreso mensual de la persona: ')) : null;
-                let nivelSisben = regimenPersona === 'subsidiado' ? readline.question('Nivel Sisben (A/B1/B2): ').toUpperCase() : null; // Convertir a mayúsculas
+                let nivelSisben = regimenPersona === 'subsidiado' ? readline.question('Nivel Sisben (A/B1/B2): ').toUpperCase() : null; 
 
                 let persona = new Persona(nombrePersona, edadPersona, generoPersona, regimenPersona, ingresoPersona, nivelSisben);
                 prueba.agregarPersona(persona);

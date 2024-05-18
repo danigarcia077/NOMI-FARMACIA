@@ -27,7 +27,7 @@ class Persona {
             descuento = costoPrueba * (tasasDescuento[this.nivelSisben] || 0);
         }
         if (this.regimen === 'contributivo' && this.ingreso > 3900000) {
-            descuento += costoPrueba * ((this.ingreso - 3900000) / 3900000) * 0.10; // 10% por cada salario mínimo adicional
+            descuento += costoPrueba * ((this.ingreso - 3900000) / 3900000) * 0.10; 
         }
         return descuento;
     }
@@ -37,11 +37,11 @@ class Persona {
 class Laboratorio {
     constructor(nombre) {
         this.nombre = nombre;
-        this.pruebas = new ListaEnlazada(); // Ahora las pruebas se almacenan en una lista enlazada
+        this.pruebas = new ListaEnlazada(); 
     }
 
     agregarPrueba(prueba) {
-        this.pruebas.agregarAlFinal(prueba); // Agregamos la prueba al final de la lista enlazada
+        this.pruebas.agregarAlFinal(prueba); 
     }
 }
 
@@ -51,21 +51,20 @@ class Prueba {
         this.nombre = nombre;
         this.tipo = tipo;
         this.costo = costo;
-        this.personas = new ListaEnlazada(); // Ahora las personas se almacenan en una lista enlazada
+        this.personas = new ListaEnlazada(); 
     }
 
     agregarPersona(persona) {
-        this.personas.agregarAlFinal(persona); // Agregamos la persona al final de la lista enlazada
+        this.personas.agregarAlFinal(persona); 
     }
 
     calcularCostoFinal() {
         let totalCosto = 0;
         let descuentosPorSisben = {};
-        let actual = this.personas.cabeza; // Empezamos desde la cabeza de la lista de personas
+        let actual = this.personas.cabeza; 
         while (actual) {
-            if (actual.valor instanceof Persona) { // Verificamos si el valor es una instancia de Persona
-                let descuento = actual.valor.calcularDescuento(this.costo); // Llamamos al método calcularDescuento de la instancia de Persona
-                let nivelSisben = actual.valor.nivelSisben || 'Ninguno';
+            if (actual.valor instanceof Persona) { 
+                let descuento = actual.valor.calcularDescuento(this.costo); 
                 descuentosPorSisben[nivelSisben] = (descuentosPorSisben[nivelSisben] || 0) + descuento;
                 totalCosto += this.costo - descuento;
             } else {
@@ -80,11 +79,11 @@ class Prueba {
 // Clase Farmaceutica
 class Farmaceutica {
     constructor() {
-        this.laboratorios = new ListaEnlazada(); // Ahora los laboratorios se almacenan en una lista enlazada
+        this.laboratorios = new ListaEnlazada(); 
     }
 
     agregarLaboratorio(laboratorio) {
-        this.laboratorios.agregarAlFinal(laboratorio); // Agregamos el laboratorio al final de la lista enlazada
+        this.laboratorios.agregarAlFinal(laboratorio); 
     }
 
     calcularIngresosTotales() {
@@ -95,22 +94,22 @@ class Farmaceutica {
         let totalIngresosLaboratorio = 0;
         let laboratoriosPorDebajo = [];
         let laboratoriosPorEncima = [];
-        let actualLab = this.laboratorios.cabeza; // Empezamos desde la cabeza de la lista de laboratorios
+        let actualLab = this.laboratorios.cabeza; 
         while (actualLab) {
-            let actualPrueba = actualLab.valor.pruebas.cabeza; // Empezamos desde la cabeza de la lista de pruebas del laboratorio
+            let actualPrueba = actualLab.valor.pruebas.cabeza; 
             while (actualPrueba) {
                 let resultado = actualPrueba.valor.calcularCostoFinal();
                 ingresosTotales += resultado.totalCosto;
                 totalIngresosLaboratorio += resultado.totalCosto;
 
-                let actualPersona = actualPrueba.valor.personas.cabeza; // Empezamos desde la cabeza de la lista de personas de la prueba
+                let actualPersona = actualPrueba.valor.personas.cabeza; 
                 while (actualPersona) {
-                    if (actualPersona.valor instanceof Persona) { // Verificamos si el valor es una instancia de Persona
+                    if (actualPersona.valor instanceof Persona) { 
                         ingresosPorRegimen[actualPersona.valor.regimen] += actualPrueba.valor.costo - actualPersona.valor.calcularDescuento(actualPrueba.valor.costo);
                     } else {
                         console.log("¡Error! El valor no es una instancia de Persona.");
                     }
-                    actualPersona = actualPersona.siguiente; // Pasamos al siguiente nodo de personas
+                    actualPersona = actualPersona.siguiente; 
                 }
 
                 ingresosPorTipoExamen[actualPrueba.valor.tipo] = (ingresosPorTipoExamen[actualPrueba.valor.tipo] || 0) + resultado.totalCosto;
@@ -119,17 +118,15 @@ class Farmaceutica {
                     descuentosPorSisben += resultado.descuentosPorSisben[nivel];
                 }
 
-                actualPrueba = actualPrueba.siguiente; // Pasamos al siguiente nodo de pruebas
-            }
-            totalIngresosLaboratorio /= actualLab.valor.pruebas.longitud; // Calcular promedio de ingresos por laboratorio
-
+                actualPrueba = actualPrueba.siguiente; 
+            totalIngresosLaboratorio /= actualLab.valor.pruebas.longitud; 
             if (totalIngresosLaboratorio < ingresosTotales) {
                 laboratoriosPorDebajo.push(actualLab.valor.nombre);
             } else if (totalIngresosLaboratorio > ingresosTotales) {
                 laboratoriosPorEncima.push(actualLab.valor.nombre);
             }
 
-            actualLab = actualLab.siguiente; // Pasamos al siguiente nodo de laboratorios
+            actualLab = actualLab.siguiente; 
         }
 
         return {
@@ -171,8 +168,7 @@ class ListaEnlazada {
 
 // Función principal
 function main() {
-    const readline = require('readline-sync'); // Importamos readline-sync
-
+    const readline = require('readline-sync'); 
     let farmaceutica = new Farmaceutica();
     let seguir = true;
 
@@ -220,6 +216,6 @@ console.log('6. Laboratorios por debajo del promedio: ' + (resultados.laboratori
 console.log('7. Laboratorios por encima del promedio: ' + (resultados.laboratoriosPorEncima.length > 0 ? resultados.laboratoriosPorEncima.join(', ') : 'Ninguno'));
 
 }
-// Llamada a la función principal
+
 main();
 
